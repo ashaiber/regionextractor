@@ -5,7 +5,7 @@ Backlog
   and mark it with a yellow rectangle. size 16x16
   + 01.01: open sequence, show first image to user
   + 01.02: catch coordinates from mouse and print them
-  - 01.03: Mark the area with a yellow rectangle.
+  + 01.03: Mark the area with a yellow rectangle.
 
 - 02: Using chosen region, iterate through sequence, find matching region in
   each image, and show results to user

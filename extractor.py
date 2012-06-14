@@ -14,9 +14,21 @@ IMAGE_FILES_ARG = 'image files'
 class Extractor(object):
     _mouse_down = False
     _last_coords = None
+    _setup_image = None
+    _region_size = 16
+    _image_display = 'image'
 
     def __init__(self):
         pass
+
+    def __update_image(self, img):
+        cv2.imshow(self._image_display, img)
+
+    def __draw_region(self, img, coords, size):
+        region_image = np.array(img)
+        pt2 = (coords[0] + size, coords[1] + size)
+        cv2.rectangle(region_image, coords, pt2, (0, 255, 255))
+        self.__update_image(region_image)
 
     def __handle_mouse(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
@@ -29,9 +41,13 @@ class Extractor(object):
             self._last_coords = (x, y)
             print("click at ({0}, {1})".format(x, y))
 
+        if (self._last_coords):
+            self.__draw_region(self._setup_image, self._last_coords, self._region_size)
+
     def __choose_region(self, img):
-        cv2.imshow('image', img)
-        cv2.setMouseCallback('image', self.__handle_mouse)
+        self._setup_image = img
+        cv2.imshow(self._image_display, img)
+        cv2.setMouseCallback(self._image_display, self.__handle_mouse)
 
         while(True):
             ch = cv2.waitKey()
